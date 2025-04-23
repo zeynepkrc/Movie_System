@@ -25,7 +25,9 @@ GENRE_DICT = {
     "37": "Western"
 }
 def home(request):
-    return render(request, 'home.html')
+    # GENRE_DICT'i şablona gönder
+    return render(request, 'home.html', {'genre_dict': GENRE_DICT})
+
 
 def recommend_films(request):
     if request.method == 'POST':
@@ -33,16 +35,23 @@ def recommend_films(request):
         year = request.POST.get('year')
         duration = request.POST.get('duration')
 
-        if not genre or not year or not duration:
-            return render(request, 'home.html', {'error': 'All fields are required!'})
+        if not genre:
+            return render(request, 'home.html', {'error': 'Genre is required!'})
 
+        # Boş değilse int'e çevir
         try:
-            year = int(year)
-            duration = int(duration)
+            year = int(year) if year else None
+            duration = int(duration) if duration else None
         except ValueError:
-            return render(request, 'home.html', {'error': 'Year and duration must be integers!'})
+            return render(request, 'home.html', {'error': 'Year and duration must be valid numbers!'})
 
-        url = f'https://api.themoviedb.org/3/discover/movie?api_key={API_KEY}&with_genres={genre}&year={year}&with_runtime.lte={duration}&page=1'
+        # URL'yi dinamik oluştur
+        url = f'https://api.themoviedb.org/3/discover/movie?api_key={API_KEY}&with_genres={genre}&page=1'
+        if year:
+            url += f"&year={year}"
+        if duration:
+            url += f"&with_runtime.lte={duration}"
+
         response = requests.get(url)
         data = response.json()
         movies = data.get('results', [])
@@ -74,6 +83,7 @@ def recommend_films(request):
         })
 
     return redirect('home')
+
 
 
 

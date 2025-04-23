@@ -1,30 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Film Recommendations</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Film Recommendations</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/recommend.css' %}">
 </head>
 <body>
-    <h1>Recommended Films</h1>
-    <p>Genre: {{ genre_name }}</p>
-    <p>Year: {{ selected_year }}</p>
-    <p>Duration: {{ selected_duration }} minutes</p>
-    <ul>
-        {% for movie in movies %}
-            <li>
-                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" width="100">
-                <h2>{{ movie.title }}</h2>
-                <p>Release Year: {{ movie.release_year }}</p>
-                <p>Duration: {{ movie.runtime }} minutes</p>
-                <p>Rating: {{ movie.rating }}</p>
-                <p><strong>Overview:</strong> {{ movie.overview }}</p>
-            </li>
-        {% empty %}
-            <p>No recommendations found for your criteria.</p>
-        {% endfor %}
-    </ul>
-    <br><br>
-    <a href="{% url 'home' %}">Back to Home</a>
+  <h1>Recommended Films</h1>
+  <p class="criteria">
+    Genre: {{ genre_name }}<br>
+    {% if selected_year %}Year: {{ selected_year }}<br>{% endif %}
+    {% if selected_duration %}Max Duration: {{ selected_duration }} minutes{% endif %}
+  </p>
+
+  <ul class="movie-list">
+    {% for movie in movies %}
+      <li class="movie-item">
+        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="poster">
+        <div class="info">
+          <h2>{{ movie.title }}</h2>
+          <p>Release Year: {{ movie.release_year }}</p>
+          <p>Duration: {{ movie.runtime }} minutes</p>
+          <p>Rating: {{ movie.rating }}</p>
+          <p><strong>Overview:</strong> {{ movie.overview }}</p>
+        </div>
+      </li>
+    {% empty %}
+      <p>No recommendations found for your criteria.</p>
+    {% endfor %}
+  </ul>
+
+  <a href="{% url 'home' %}" class="back-link">Back to Home</a>
 </body>
 </html>
+
