@@ -65,7 +65,7 @@ def fetch_all_movies():
                     genre_obj, _ = Genre.objects.get_or_create(name=genre_name)
                     film_obj.genres.add(genre_obj)
 
-            print(f'Film "{title}" veritabanına kaydedildi.')
+            print(f'Film "{title}" The data is saved in the database.')
 
         page += 1
 
