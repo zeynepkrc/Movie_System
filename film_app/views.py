@@ -64,7 +64,6 @@ def recommend_films(request):
             movie['rating'] = round(rating, 1) if rating is not None else '-'
             movie['overview'] = movie.get('overview', 'No description available.')
 
-        # Genre adını alalım
         genre_name = GENRE_DICT.get(genre, 'Unknown')
 
         return render(request, 'recommend.html', {

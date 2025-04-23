@@ -3,17 +3,14 @@ import sys
 import requests
 import django
 
-# Django ayarlarını başlatmak için yolu ayarla
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Movie_System.settings')
 django.setup()
 
 from film_app.models import Film, Genre
 
-# TMDb API anahtarını ayarlayın
-API_KEY = 'f71beb95aabe859521b47f22127b2ec9'  # Buraya kendi API anahtarınızı girin
+API_KEY = 'f71beb95aabe859521b47f22127b2ec9'
 
-# TMDb genre ID'lerini eşleştirmek için harita
 GENRE_MAP = {
     28: 'Action',
     12: 'Adventure',
@@ -58,11 +55,10 @@ def fetch_all_movies():
                     'title': title,
                     'release_year': release_year,
                     'poster_url': poster_url,
-                    'runtime': 0,  # Daha sonra detay endpointi ile alınabilir
+                    'runtime': 0,
                 }
             )
 
-            # Genre'leri ekle
             for genre_id in movie.get('genre_ids', []):
                 genre_name = GENRE_MAP.get(genre_id)
                 if genre_name:
