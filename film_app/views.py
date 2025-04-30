@@ -38,28 +38,33 @@ def recommend_films(request):
         if not genre:
             return render(request, 'home.html', {'error': 'Genre is required!'})
 
-        # Boş değilse int'e çevir
         try:
             year = int(year) if year else None
             duration = int(duration) if duration else None
         except ValueError:
             return render(request, 'home.html', {'error': 'Year and duration must be valid numbers!'})
 
-        # URL'yi dinamik oluştur
-        url = f'https://api.themoviedb.org/3/discover/movie?api_key={API_KEY}&with_genres={genre}&page=1'
-        if year:
-            url += f"&year={year}"
-        if duration:
-            url += f"&with_runtime.lte={duration}"
+        all_movies = []
 
-        response = requests.get(url)
-        data = response.json()
-        movies = data.get('results', [])
+        for page in range(1, 4):  # 3 sayfa film çekiyoruz, istersen artırabilirsin
+            url = f'https://api.themoviedb.org/3/discover/movie?api_key={API_KEY}&with_genres={genre}&page={page}'
+            if year:
+                url += f"&year={year}"
+            if duration:
+                url += f"&with_runtime.lte={duration}"
 
-        if not movies:
+            response = requests.get(url)
+            if response.status_code != 200:
+                continue  # Sayfa hatalıysa atla
+
+            data = response.json()
+            movies = data.get('results', [])
+            all_movies.extend(movies)
+
+        if not all_movies:
             return render(request, 'home.html', {'error': 'No films found based on your criteria.'})
 
-        random_movies = random.sample(movies, min(3, len(movies)))
+        random_movies = random.sample(all_movies, min(3, len(all_movies)))
 
         for movie in random_movies:
             movie_id = movie['id']
