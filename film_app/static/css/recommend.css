@@ -1,9 +1,8 @@
 .movie-item .poster {
-    width: 100px; /* Poster genişliğini 100px yap */
-    height: auto; /* Yüksekliği orantılı tut */
+    width: 100px;
+    height: auto;
 }
 
-/* Genel Sayfa Ayarları */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -37,7 +36,6 @@ a.back-link:hover {
     text-decoration: underline;
 }
 
-/* Film Listesi Düzeni */
 .movie-list {
     list-style-type: none;
     padding: 0;
