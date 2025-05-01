@@ -25,8 +25,7 @@ GENRE_DICT = {
     "37": "Western"
 }
 def home(request):
-    # GENRE_DICT'i şablona gönder
-    return render(request, 'home.html', {'genre_dict': GENRE_DICT})
+    return render(request, 'film_app/home.html', {'genre_dict': GENRE_DICT})
 
 
 def recommend_films(request):
@@ -36,17 +35,17 @@ def recommend_films(request):
         duration = request.POST.get('duration')
 
         if not genre:
-            return render(request, 'home.html', {'error': 'Genre is required!'})
+            return render(request, 'film_app/home.html', {'error': 'Genre is required!'})
 
         try:
             year = int(year) if year else None
             duration = int(duration) if duration else None
         except ValueError:
-            return render(request, 'home.html', {'error': 'Year and duration must be valid numbers!'})
+            return render(request, 'film_app/home.html', {'error': 'Year and duration must be valid numbers!'})
 
         all_movies = []
 
-        for page in range(1, 4):  # 3 sayfa film çekiyoruz, istersen artırabilirsin
+        for page in range(1, 4):
             url = f'https://api.themoviedb.org/3/discover/movie?api_key={API_KEY}&with_genres={genre}&page={page}'
             if year:
                 url += f"&year={year}"
@@ -55,14 +54,14 @@ def recommend_films(request):
 
             response = requests.get(url)
             if response.status_code != 200:
-                continue  # Sayfa hatalıysa atla
+                continue
 
             data = response.json()
             movies = data.get('results', [])
             all_movies.extend(movies)
 
         if not all_movies:
-            return render(request, 'home.html', {'error': 'No films found based on your criteria.'})
+            return render(request, 'film_app/home.html', {'error': 'No films found based on your criteria.'})
 
         random_movies = random.sample(all_movies, min(3, len(all_movies)))
 
@@ -80,7 +79,7 @@ def recommend_films(request):
 
         genre_name = GENRE_DICT.get(genre, 'Unknown')
 
-        return render(request, 'recommend.html', {
+        return render(request, 'film_app/recommend.html', {
             'movies': random_movies,
             'genre_name': genre_name,
             'selected_year': year,

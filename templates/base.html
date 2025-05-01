@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Film Recommendation System{% endblock %}</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/recommend.css' %}">
+</head>
+<body>
+  <header>
+    <h1>🎬 Film Recommender</h1>
+    <nav>
+      <a href="{% url 'home' %}">Home</a>
+      {% if user.is_authenticated %}
+        <span>Welcome, {{ user.username }}!</span>
+        <a href="{% url 'logout' %}">Logout</a>
+      {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

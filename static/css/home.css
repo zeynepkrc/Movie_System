@@ -77,3 +77,28 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+.auth-buttons {
+  text-align: right;
+  margin-top: -20px;
+  margin-bottom: 15px;
+}
+
+.auth-buttons .btn {
+  padding: 8px 14px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.auth-buttons .btn.logout {
+  background-color: #dc3545;
+}
+
+.auth-buttons .btn:hover {
+  opacity: 0.85;
+}

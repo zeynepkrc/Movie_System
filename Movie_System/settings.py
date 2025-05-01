@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'film_app',
+    'accounts',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'Movie_System.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Şablonların yer aldığı ana dizin
+        'DIRS': [os.path.join(BASE_DIR, 'Movie_System/../templates')],  # Şablonların yer aldığı ana dizin
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

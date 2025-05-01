@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Film Recommendations</title>
-  {% load static %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Recommendations - Film Recommendation{% endblock %}
+
+{% block extra_css %}
   <link rel="stylesheet" href="{% static 'css/recommend.css' %}">
-</head>
-<body>
-  <h1>Recommended Films</h1>
+{% endblock %}
+
+{% block content %}
   <p class="criteria">
     Genre: {{ genre_name }}<br>
     {% if selected_year %}Year: {{ selected_year }}<br>{% endif %}
@@ -18,7 +17,8 @@
   <ul class="movie-list">
     {% for movie in movies %}
       <li class="movie-item">
-        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="poster">
+        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+             alt="{{ movie.title }}" class="poster">
         <div class="info">
           <h2>{{ movie.title }}</h2>
           <p>Release Year: {{ movie.release_year }}</p>
@@ -33,6 +33,6 @@
   </ul>
 
   <a href="{% url 'home' %}" class="back-link">Back to Home</a>
-</body>
-</html>
+{% endblock %}
+
 
