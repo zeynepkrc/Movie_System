@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Recommendations - Film Recommendation{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/recommend.css' %}?v=2.0">
+{% endblock %}
+
+{% block content %}
+<div id="feedback" style="display:none;"></div>
+
+<p class="criteria">
+  Genre: {{ genre_name }}<br>
+  {% if selected_year %}Year: {{ selected_year }}<br>{% endif %}
+  {% if selected_duration %}Max Duration: {{ selected_duration }} minutes{% endif %}
+</p>
+
+<ul class="movie-list">
+  {% for movie in movies %}
+    <li class="movie-item">
+      <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path|default:'' }}" alt="{{ movie.title }}" class="poster">
+      <div class="info">
+        <h2>{{ movie.title }}</h2>
+        <p>Release Year: {{ movie.release_year }}</p>
+        <p>Duration: {{ movie.runtime }} minutes</p>
+        <p>Rating: {{ movie.rating }}</p>
+        <p><strong>Overview:</strong> {{ movie.overview }}</p>
+      </div>
+
+      {% if user.is_authenticated %}
+        <button class="action-btn"
+                data-id="{{ movie.id }}"
+                data-title="{{ movie.title }}"
+                data-poster="{{ movie.poster_path|default:'' }}"
+                data-type="watched">👁 Watched</button>
+
+        <button class="action-btn"
+                data-id="{{ movie.id }}"
+                data-title="{{ movie.title }}"
+                data-poster="{{ movie.poster_path|default:'' }}"
+                data-type="liked">❤️ Like</button>
+
+        <button class="action-btn"
+                data-id="{{ movie.id }}"
+                data-title="{{ movie.title }}"
+                data-poster="{{ movie.poster_path|default:'' }}"
+                data-type="later">⏳ Watch Later</button>
+      {% endif %}
+    </li>
+  {% empty %}
+    <p class="error">No recommendations found for your criteria.</p>
+  {% endfor %}
+</ul>
+
+<div class="back-button-wrapper">
+  <a href="{% url 'home' %}" class="back-link">🏠 Return to Homepage</a>
+</div>
+
+<script>
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    for (let cookie of document.cookie.split(';')) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function showFeedback(msg) {
+  const box = document.getElementById("feedback");
+  box.innerText = msg;
+
+  box.style.display = "block";
+  box.style.animation = "none";
+  void box.offsetWidth;
+  box.style.animation = "popupFade 2.6s ease-in-out forwards";
+
+  setTimeout(() => {
+    box.style.display = "none";
+  }, 2600);
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll(".action-btn");
+
+  buttons.forEach(button => {
+    button.addEventListener("click", function () {
+      const movieId = this.dataset.id;
+      const title = this.dataset.title;
+      const poster = this.dataset.poster;
+      const type = this.dataset.type;
+      const csrf = getCookie("csrftoken");
+
+      let endpoint = "";
+      if (type === "watched") endpoint = "/mark-watched/";
+      if (type === "liked") endpoint = "/mark-liked/";
+      if (type === "later") endpoint = "/mark-later/";
+
+      fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrf,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `movie_id=${movieId}&title=${encodeURIComponent(title)}&poster_path=${encodeURIComponent(poster)}`
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log("🎯 Response:", data);
+        if (data.created) {
+          showFeedback(`🎉 Added to ${type.replace("-", " ")}!`);
+        } else {
+          showFeedback(`⚠️ Already in ${type.replace("-", " ")}.`);
+        }
+      })
+      .catch(err => {
+        console.error("❌ Error:", err);
+        showFeedback("❌ Something went wrong.");
+      });
+    });
+  });
+});
+</script>
+{% endblock %}
+
+

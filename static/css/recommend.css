@@ -1,70 +1,59 @@
-.movie-item .poster {
-    width: 100px;
-    height: auto;
-}
-
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #fffaf0;
+    color: #444;
 }
 
 h1 {
     text-align: center;
     margin-top: 20px;
-    color: #333;
+    color: #a84f7a;
 }
 
 p.criteria {
     text-align: center;
     font-size: 16px;
     margin: 20px 0;
-}
-
-a.back-link {
-    display: block;
-    text-align: center;
-    margin-top: 30px;
-    font-size: 16px;
-    color: #007bff;
-    text-decoration: none;
-}
-
-a.back-link:hover {
-    text-decoration: underline;
+    color: #a84f7a;
 }
 
 .movie-list {
     list-style-type: none;
     padding: 0;
+    margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 12px;
+    max-width: 1100px;
 }
 
 .movie-item {
     background-color: #fff;
-    margin: 10px;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 250px;
+    margin: 6px;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(216, 95, 148, 0.1);
+    width: 220px;
     text-align: center;
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #f2b5cc;
 }
 
 .movie-item:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
+    box-shadow: 0 6px 16px rgba(216, 95, 148, 0.2);
 }
 
 .poster {
-    width: 200px;
-    height: 300px;
+    width: 180px;
+    height: 270px;
     object-fit: cover;
-    border-radius: 5px;
-    margin-bottom: 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    border: 2px solid #f7c6d9;
 }
 
 .info {
@@ -72,21 +61,155 @@ a.back-link:hover {
 }
 
 .info h2 {
-    font-size: 18px;
-    margin: 10px 0;
-    color: #333;
+    font-size: 16px;
+    margin: 8px 0;
+    color: #a84f7a;
 }
 
 .info p {
-    margin: 5px 0;
+    margin: 4px 0;
+    font-size: 13px;
 }
 
 strong {
     font-weight: bold;
+    color: #a84f7a;
 }
 
 .error {
-    color: red;
+    color: #b43b54;
     text-align: center;
     margin-top: 20px;
+    font-weight: bold;
 }
+
+.back-button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+a.back-link {
+    display: inline-block;
+    padding: 14px 28px;
+    font-size: 16px;
+    background-color: #e89cbf;
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(216, 95, 148, 0.15);
+    min-width: 220px;
+    text-align: center;
+}
+
+a.back-link:hover {
+    background-color: #d87aab;
+    transform: scale(1.05);
+}
+
+.movie-item form {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.watched-btn, .like-btn, .later-btn {
+  margin-top: 6px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.watched-btn {
+  background-color: #b4e1a5;
+  color: #274e13;
+}
+
+.watched-btn:hover {
+  background-color: #97d384;
+  transform: scale(1.05);
+}
+
+.like-btn {
+  background-color: #f7b6c2;
+  color: #6e1c2b;
+}
+
+.like-btn:hover {
+  background-color: #ee91a2;
+  transform: scale(1.05);
+}
+
+.later-btn {
+  background-color: #ffe5a3;
+  color: #664d03;
+}
+
+.later-btn:hover {
+  background-color: #fcd276;
+  transform: scale(1.05);
+}
+
+.popup-feedback {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fbe7f0;
+  color: #a84f7a;
+  padding: 18px 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(216, 95, 148, 0.2);
+  font-weight: 600;
+  font-size: 17px;
+  z-index: 9999;
+  opacity: 0;
+  animation: popupFade 2.6s ease-in-out forwards;
+}
+
+@keyframes popupFade {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+}
+
+#feedback {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fbe7f0;
+  color: #a84f7a;
+  padding: 18px 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(216, 95, 148, 0.2);
+  font-weight: 600;
+  font-size: 17px;
+  z-index: 9999;
+  opacity: 0;
+}
+
+

@@ -1,34 +1,38 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: #fffaf0;
     margin: 0;
     padding: 0;
+    color: #444;
 }
 
 h1 {
     text-align: center;
     margin-top: 30px;
-    color: #333;
+    color: #a84f7a;
 }
 
 .intro-text {
     text-align: center;
     font-size: 1.2rem;
     margin-bottom: 20px;
+    color: #a84f7a;
 }
 
 .error {
-    color: red;
+    color: #b43b54;
     text-align: center;
+    font-weight: bold;
 }
 
 form {
     margin: 0 auto;
     max-width: 600px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fffdfb;
+    padding: 25px 30px;
+    border-radius: 10px;
+    border: 1px solid #f2b5cc;
+    box-shadow: 0 4px 12px rgba(216, 95, 148, 0.15);
 }
 
 .form-group {
@@ -39,14 +43,24 @@ label {
     display: block;
     margin: 5px 0;
     font-size: 1rem;
+    color: #a84f7a;
+    font-weight: 500;
 }
 
 input, select, button {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    border-radius: 6px;
+    border: 1px solid #e89cbf;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #d87aab;
 }
 
 small {
@@ -55,20 +69,23 @@ small {
 }
 
 button {
-    background-color: #007bff;
+    background-color: #e89cbf;
     color: white;
     border: none;
     cursor: pointer;
     font-size: 1rem;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #d87aab;
 }
 
 a {
     text-decoration: none;
-    color: #007bff;
+    color: #c25b8a;
     font-size: 1rem;
     display: inline-block;
     margin-top: 10px;
@@ -76,29 +93,33 @@ a {
 
 a:hover {
     text-decoration: underline;
+    color: #a84f7a;
 }
 
 .auth-buttons {
-  text-align: right;
-  margin-top: -20px;
-  margin-bottom: 15px;
+    text-align: right;
+    margin-top: -20px;
+    margin-bottom: 15px;
 }
 
 .auth-buttons .btn {
-  padding: 8px 14px;
-  margin-left: 10px;
-  border: none;
-  border-radius: 6px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  font-size: 14px;
+    padding: 8px 14px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: #e89cbf;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
 }
 
 .auth-buttons .btn.logout {
-  background-color: #dc3545;
+    background-color: #b43b54;
 }
 
 .auth-buttons .btn:hover {
-  opacity: 0.85;
+    background-color: #d87aab;
 }
+
+

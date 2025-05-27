@@ -1,5 +1,11 @@
 {% extends "base.html" %}
-{% block title %}Home – Film Recommender{% endblock %}
+{% load static %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
 
 {% block content %}
   <p class="intro-text">

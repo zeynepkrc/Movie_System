@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Movies{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/my_movies.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2 class="page-title">🎬 Your Movie Library</h2>
+
+<section>
+  <h3>👁️ Watched</h3>
+  {% if watched %}
+  <ul class="movie-list">
+    {% for movie in watched %}
+    <li class="movie-item" id="watched-{{ movie.id }}">
+      <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="poster">
+      <div class="info">
+        <h2>{{ movie.title }}</h2>
+        <button class="delete-btn" data-id="{{ movie.id }}" data-type="watched">🗑 Delete</button>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="empty-msg">You haven't watched any movies yet.</p>
+  {% endif %}
+</section>
+
+<section>
+  <h3>❤️ Liked</h3>
+  {% if liked %}
+  <ul class="movie-list">
+    {% for movie in liked %}
+      <li class="movie-item" id="liked-{{ movie.id }}">
+        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}">
+        <div class="info">
+          <h2>{{ movie.title }}</h2>
+          <button class="delete-btn" data-id="{{ movie.id }}" data-type="liked">🗑 Delete</button>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p class="empty-msg">You haven't liked any movies yet.</p>
+  {% endif %}
+</section>
+
+<section>
+  <h3>⏳ Watch Later</h3>
+  {% if later %}
+  <ul class="movie-list">
+    {% for movie in later %}
+      <li class="movie-item" id="later-{{ movie.id }}">
+        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}">
+        <div class="info">
+          <h2>{{ movie.title }}</h2>
+          <button class="delete-btn" data-id="{{ movie.id }}" data-type="later">🗑 Delete</button>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p class="empty-msg">You haven't added any movies to Watch Later yet.</p>
+  {% endif %}
+</section>
+
+<script>
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    for (let cookie of document.cookie.split(';')) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll(".delete-btn");
+  console.log("🟢 Buton bulundu:", buttons.length);
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", function () {
+      const id = this.dataset.id;
+      const type = this.dataset.type;
+      const csrf = getCookie("csrftoken");
+      const url = `/${type}/delete/${id}/`;
+
+      console.log("🟡 İstek:", url);
+
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrf
+        }
+      }).then(res => {
+        if (res.ok) {
+          console.log("✅ Silindi:", url);
+          document.getElementById(`${type}-${id}`).remove();
+        } else {
+          console.error("❌ Silinemedi", res.status);
+          alert("Silinemedi: " + res.status);
+        }
+      }).catch(err => {
+        console.error("🚨 Fetch hatası:", err);
+      });
+    });
+  });
+});
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

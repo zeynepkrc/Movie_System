@@ -21,7 +21,7 @@ def get_movie_data(title):
     if not results:
         return None
 
-    movie = results[0]  # En uygun eşleşme
+    movie = results[0]
 
     return {
         "title": movie.get("title"),

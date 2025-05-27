@@ -1,20 +1,56 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}?v=1.0">
+{% endblock %}
+
 {% block content %}
-  <h2>Login</h2>
-  {% if error %}
-    <p style="color: red;">{{ error }}</p>
-  {% endif %}
-  <form method="POST">
-    {% csrf_token %}
-    <div>
-      <label for="username">Username:</label>
-      <input type="text" name="username" id="username" required>
-    </div>
-    <div>
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" required>
-    </div>
-    <button type="submit">Login</button>
-  </form>
-  <p>Don't have an account? <a href="{% url 'register' %}">Register here</a>.</p>
+  <div class="login-container">
+    <h2>Welcome Back 🎉</h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="form-error-wrapper">
+          <div class="form-error">{{ message }}</div>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" class="login-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required>
+      </div>
+
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+
+    <p class="register-link">
+      Don't have an account? <a href="{% url 'register' %}">Register here</a>.
+    </p>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  setTimeout(() => {
+    const wrapper = document.querySelector('.form-error-wrapper');
+    if (wrapper) {
+      wrapper.style.transition = 'opacity 0.5s ease';
+      wrapper.style.opacity = '0';
+      setTimeout(() => {
+        wrapper.remove();
+      }, 600);
+    }
+  }, 3000);
+</script>
 {% endblock %}
